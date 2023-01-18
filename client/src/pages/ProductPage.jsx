@@ -116,7 +116,7 @@ const Product = () => {
       <Annoucement />
       <Wrapper>
         <ImgContainer>
-          <Image src="https://i.ibb.co/S6qMxwr/jean.jpg" />
+          <Image src="http://cdn.shopify.com/s/files/1/0399/0231/4646/products/NVJMP80020-1.jpg" />
         </ImgContainer>
         <InfoContainer>
           <Title>Denim Jumpsuit</Title>

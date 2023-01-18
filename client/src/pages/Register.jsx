@@ -6,10 +6,11 @@ import RegisterPage from "./RegisterPage.png";
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
-  background-image: linear-gradient(
+  background-image: 
+  ${'' /* linear-gradient(
       rgba(255, 255, 252, 0),
       rgba(252, 252, 252, 0.3)
-    ),
+    ), */}
     url(${RegisterPage});
 
   background-size: cover;
@@ -26,15 +27,17 @@ const Container = styled.div`
 const Wrapper = styled.div`
   padding: 20px;
   width: 40%;
-  background-color: transparent;
-  border-radius: 5px;
-  ${mobile({ width: "75%" })}
+  background-color: white;
+  border-radius: 15px;
+  color: white;
+  opacity: 0.9;
+  ${mobile({ width: "75%", opacity: 0.8 })}
 `;
 const Title = styled.h1`
   font-size: 50px;
   font-weight: 500;
   text-align: center;
-  color: white;
+  color: black;
 `;
 const Form = styled.form`
   display: flex;
@@ -53,13 +56,13 @@ const Input = styled.input`
 const Agrement = styled.span`
   font-size: 12px;
   margin: 20px 0px;
-  color: white;
+  color: black;
 `;
 const Button = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 5px;
+  border-radius: 15px;
   width: 120%;
   height: 40px;
   background-color: white;

@@ -5,10 +5,11 @@ import { mobile } from "../responsive";
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
-  background-image: linear-gradient(
+  background-image: 
+  ${'' /* linear-gradient(
       rgba(255, 255, 252, 0),
       rgba(252, 252, 252, 0.5)
-    ),
+    ), */}
     url(${LoginPage});
   ${
     "" /* url("https://www.wallpapertip.com/wmimgs/18-185930_black-and-white-wallpaper-model.jpg"); */
@@ -27,15 +28,17 @@ const Container = styled.div`
 const Wrapper = styled.div`
   padding: 20px;
   width: 25%;
-  background-color: transparent;
-  border-radius: 5px;
-  ${mobile({width:"75%"})}
+  border-radius: 15px;
+  background-color: white;
+  color: white;
+  opacity: 0.9;
+  ${mobile({ width: "75%" })}
 `;
 const Title = styled.h1`
   font-size: 50px;
   font-weight: 500;
   text-align: center;
-  color: white;
+  color: black;
   
 `;
 const Form = styled.form`
@@ -48,8 +51,8 @@ const Input = styled.input`
   margin: 20px 10px 0px 0px;
   padding: 10px;
   border-radius: 5px;
-  border: none;
-  outline: none;
+  ${'' /* border: none; */}
+  ${'' /* outline: none; */}
   :focus {
     outline: none;
   }
@@ -60,15 +63,14 @@ const Button = styled.button`
   align-items: center;
   width: 100%;
   height: 40px;
-  border-radius: 5px;
+  border-radius: 15px;
   margin: 20px 10px 0px 0px;
   background-color: white;
   :hover {
     background-color: black;
     color: white;
   }
-  margin-bottom:10px;
-  
+  margin-bottom: 10px;
 `;
 
 const Link = styled.a`
@@ -76,7 +78,7 @@ margin: 5px 0px;
 padding:5px;
 font-size:12px;
 font-weight: 500;
-color:white;
+color:black;
 cursor:pointer;
 :hover{
     color: grey;
