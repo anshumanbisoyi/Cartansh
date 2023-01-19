@@ -12,7 +12,7 @@ const Image = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 5px;
+  border-radius: 15px;
   ${mobile({ height: "20vh" })}
 `;
 const Info = styled.div`

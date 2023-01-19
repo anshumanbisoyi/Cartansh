@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Annoucement from "../components/Annoucement";
 import Footer from "../components/Footer";
@@ -40,6 +42,24 @@ const Select = styled.select`
 const Option = styled.option``; 
 
 const ProductList = () => {
+  const location = useLocation();
+  const cat = location.pathname.split("/")[2];
+const [filters, setFilters] =useState({});
+const [sort, setSort] = useState("newest");
+const handleFilters = (e)=> {
+  const value = e.target.value;
+  setFilters({
+    ...filters,
+    [e.target.name]: value,
+  })
+}
+const handleSort = (e) =>{
+  const value = e.target.value;
+  setSort({
+    sort: value
+  })
+};
+// console.log(filters);
   return (
     <Container>
       <Navbar />
@@ -48,10 +68,8 @@ const ProductList = () => {
       <FilterContainer>
         <Filter>
           <FilterText>Filter Products: </FilterText>
-          <Select>
-            <Option disabled selected>
-              Color
-            </Option>
+          <Select name="color" onChange={handleFilters}>
+            <Option disabled>Color</Option>
             <Option>White</Option>
             <Option>Black</Option>
             <Option>Grey</Option>
@@ -61,10 +79,8 @@ const ProductList = () => {
             <Option>Purple</Option>
             <Option>Orange</Option>
           </Select>
-          <Select>
-            <Option disabled selected>
-              Size
-            </Option>
+          <Select name="size" onChange={handleFilters}>
+            <Option disabled>Size</Option>
             <Option>XXS</Option>
             <Option>XS</Option>
             <Option>S</Option>
@@ -77,17 +93,14 @@ const ProductList = () => {
         </Filter>
         <Filter>
           <FilterText>Sort Products: </FilterText>
-          <Select>
-            <Option disabled selected>
-              Sort
-            </Option>
-            <Option>Popularity</Option>
-            <Option>Price: High to Low</Option>
-            <Option>Price: Low to High</Option>
+          <Select onChange={handleSort}>
+            <Option value="newest">Newest</Option>
+            <Option value="asc">Price: Low to High</Option>
+            <Option value="desc">Price: High to Low</Option>
           </Select>
         </Filter>
       </FilterContainer>
-      <Products />
+      <Products cat = {cat} filters={filters} sort={sort}/>
       <Newsletter />
       <Footer />
     </Container>
