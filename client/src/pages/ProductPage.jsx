@@ -1,9 +1,11 @@
 import { AddCircle, RemoveCircle } from "@material-ui/icons";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Annoucement from "../components/Annoucement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
+import { publicReqest } from "../requestMethods";
 import { mobile } from "../responsive";
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -110,50 +112,68 @@ const Button = styled.button`
   }
 `;
 const Product = () => {
+  const location = useLocation();
+  const id = location.pathname.split("/")[2];
+  const [product, setProduct] = useState({});
+  const [quantity, setQuantity] = useState(1);
+  const [color, setColor] = useState("");
+  const [size, setSize] = useState("");
+
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const res = await publicReqest.get("/products/find/" + id);
+        setProduct(res.data);
+      } catch (e) {}
+    };
+    getProduct();
+  }, [id]);
+
+  const handleQuantity = (type) => {
+    if (type === "dec") {
+      quantity > 1 && setQuantity(quantity - 1);
+    } else {
+      quantity < 10 && setQuantity(quantity + 1);
+    }
+  };
+  const handleClick = ()=>{
+    
+  };
   return (
     <Container>
       <Navbar />
       <Annoucement />
       <Wrapper>
         <ImgContainer>
-          <Image src="http://cdn.shopify.com/s/files/1/0399/0231/4646/products/NVJMP80020-1.jpg" />
+          <Image src={product.img} />
         </ImgContainer>
         <InfoContainer>
-          <Title>Denim Jumpsuit</Title>
-          <Description>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda,
-            dolorem error! Sed eos, voluptates libero tempore, possimus itaque
-            nisi id saepe veritatis expedita, totam dicta perspiciatis!
-            Laudantium recusandae necessitatibus doloribus. ipsum dolor sit amet
-            consectetur, adipisicing elit. Consequuntur, deleniti. Quo voluptas
-            impedit qui quod aut.
-          </Description>
-          <Price>₹899</Price>
+          <Title>{product.title}</Title>
+          <Description>{product.desc}</Description>
+          <Price>₹{product.price}</Price>
           <FilterContainer>
             <Filter>
               <FilterTitle>Color</FilterTitle>
-              <FilterColor color="black" />
-              <FilterColor color="darkblue" />
-              <FilterColor color="gray" />
+              {product.color?.map((c) => (
+                <FilterColor color={c} key={c} onClick={() => setColor(c)} />
+              ))}
             </Filter>
             <Filter>
               <FilterTitle>Size</FilterTitle>
-              <FilterSize>
-                <FilterSizeOption>XS</FilterSizeOption>
-                <FilterSizeOption>S</FilterSizeOption>
-                <FilterSizeOption>M</FilterSizeOption>
-                <FilterSizeOption>L</FilterSizeOption>
-                <FilterSizeOption>XL</FilterSizeOption>
+              <FilterSize onChange={(e) => setSize(e.target.value)}>
+                {product.size?.map((s) => (
+                  <FilterSizeOption key={s}>{s}</FilterSizeOption>
+                ))}
               </FilterSize>
             </Filter>
           </FilterContainer>
           <AddContainer>
             <AmountContainer>
-              <RemoveCircle />
-              <Amount>1</Amount>
-              <AddCircle />
+              <RemoveCircle onClick={() => handleQuantity("dec")} />
+              <Amount>{quantity}</Amount>
+              <AddCircle onClick={() => handleQuantity("inc")} />
             </AmountContainer>
-            <Button>ADD TO CART</Button>
+            <Button onClick={handleClick}>ADD TO CART</Button>
           </AddContainer>
         </InfoContainer>
       </Wrapper>

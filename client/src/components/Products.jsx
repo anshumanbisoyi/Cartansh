@@ -12,11 +12,9 @@ const Container = styled.div`
 `;
 
 const Products = ({ cat, filters, sort }) => {
-  console.log(cat, filters, sort);
-
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  //to show products with catefories
+
   useEffect(() => {
     const getProducts = async () => {
       try {
@@ -26,13 +24,11 @@ const Products = ({ cat, filters, sort }) => {
             : "http://localhost:3000/api/products"
         );
         setProducts(res.data);
-      } catch (e) {
-        console.log(e);
-      }
+      } catch (err) {}
     };
     getProducts();
   }, [cat]);
-  //to filter products
+
   useEffect(() => {
     cat &&
       setFilteredProducts(
@@ -43,7 +39,7 @@ const Products = ({ cat, filters, sort }) => {
         )
       );
   }, [products, cat, filters]);
-  //to sort products
+
   useEffect(() => {
     if (sort === "newest") {
       setFilteredProducts((prev) =>
@@ -61,9 +57,11 @@ const Products = ({ cat, filters, sort }) => {
   }, [sort]);
   return (
     <Container>
-      {filteredProducts.map((item) => (
-        <Product item={item} key={item.id} />
-      ))}
+      {cat
+        ? filteredProducts.map((item) => <Product item={item} key={item.id} />)
+        : products
+            .slice(0, 8)
+            .map((item) => <Product item={item} key={item.id} />)}
     </Container>
   );
 };
