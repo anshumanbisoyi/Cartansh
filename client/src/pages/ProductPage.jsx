@@ -1,12 +1,16 @@
 import { AddCircle, RemoveCircle } from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Annoucement from "../components/Annoucement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import { publicReqest } from "../requestMethods";
+import { addProduct } from "../redux/cartRedux";
+import { publicRequest } from "../requestMethods";
 import { mobile } from "../responsive";
+
+
 const Container = styled.div``;
 const Wrapper = styled.div`
   padding: 50px;
@@ -118,11 +122,12 @@ const Product = () => {
   const [quantity, setQuantity] = useState(1);
   const [color, setColor] = useState("");
   const [size, setSize] = useState("");
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getProduct = async () => {
       try {
-        const res = await publicReqest.get("/products/find/" + id);
+        const res = await publicRequest.get("/products/find/" + id);
         setProduct(res.data);
       } catch (e) {}
     };
@@ -137,7 +142,8 @@ const Product = () => {
     }
   };
   const handleClick = ()=>{
-    
+    dispatch(addProduct({ ...product, quantity, color, size }));
+      
   };
   return (
     <Container>
