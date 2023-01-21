@@ -90,7 +90,16 @@ const Navbar = () => {
           <MenuItem>Sign Up</MenuItem>
           <Link to="/cart">
             <MenuItem>
-              <Badge badgeContent={cart.quantity} color="secondary">
+              <Badge
+                badgeContent={cart.quantity}
+                color="secondary"
+                style={{
+                  color: "black",
+                  "& .MuiBadge-badge": {
+                    background: "black",
+                  },
+                }}
+              >
                 <ShoppingCartOutlined />
               </Badge>
             </MenuItem>

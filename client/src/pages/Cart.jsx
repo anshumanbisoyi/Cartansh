@@ -1,5 +1,6 @@
 import { Add, Remove } from "@material-ui/icons";
 import React from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Annoucement from "../components/Annoucement";
 import Footer from "../components/Footer";
@@ -151,6 +152,7 @@ cursor:pointer;
 
 
 const Cart = () => {
+  const cart = useSelector(state=>state.cart)
   return (
     <Container>
       <Navbar />
@@ -167,63 +169,40 @@ const Cart = () => {
         </Top>
         <Bottom>
           <Info>
-            <Product>
-              <ProductDetail>
-                <Image src="https://orbitvu.com/wp-content/uploads/2021/11/sport-shoe-white-background.jpg" />
-                <Details>
-                  <ProductName>
-                    <b>Product:</b> Slazenger Shoes
-                  </ProductName>
-                  <ProductId>
-                    <b>ID:</b> 103849203933
-                  </ProductId>
-                  <ProductSize>
-                    <b>Size:</b> 36.5
-                  </ProductSize>
-                  {/* <ProductColor color="orange" /> */}
-                </Details>
-              </ProductDetail>
-              <Price>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductQuantity>2</ProductQuantity>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>₹ 999</ProductPrice>
-              </Price>
-            </Product>
+            {cart.products.map((product) => (
+              <Product>
+                <ProductDetail>
+                  <Image src={product.img} />
+                  <Details>
+                    <ProductName>
+                      <b>Product:</b> {product.title}
+                    </ProductName>
+                    <ProductId>
+                      <b>ID:</b> {product._id}
+                    </ProductId>
+                    <ProductSize>
+                      <b>Size:</b> {product.size}
+                    </ProductSize>
+                    {/* <ProductColor color={product.color} /> */}
+                  </Details>
+                </ProductDetail>
+                <Price>
+                  <ProductAmountContainer>
+                    <Add />
+                    <ProductQuantity>{product.quantity}</ProductQuantity>
+                    <Remove />
+                  </ProductAmountContainer>
+                  <ProductPrice>₹{product.price * product.quantity}</ProductPrice>
+                </Price>
+              </Product>
+            ))}
             <Hr />
-            <Product>
-              <ProductDetail>
-                <Image src="https://media.istockphoto.com/id/629483218/photo/red-jacket-isolated-on-white-background-clipping-path.jpg?s=612x612&w=0&k=20&c=yyvsPac98b6X59ECGeuTsji8vWaR9jA9Y3a9ps4pffE=" />
-                <Details>
-                  <ProductName>
-                    <b>Product:</b> Winter Jacket
-                  </ProductName>
-                  <ProductId>
-                    <b>ID:</b> 103849324133
-                  </ProductId>
-                  <ProductSize>
-                    <b>Size:</b> M
-                  </ProductSize>
-                  {/* <ProductColor color="maroon" /> */}
-                </Details>
-              </ProductDetail>
-              <Price>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductQuantity>1</ProductQuantity>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>₹ 1499</ProductPrice>
-              </Price>
-            </Product>
           </Info>
           <Summary>
             <SummaryTitle>Order Summary</SummaryTitle>
             <SummaryItem>
               <SummaryText>Subtotal</SummaryText>
-              <SummaryPrice>₹2498</SummaryPrice>
+              <SummaryPrice>₹{cart.total}</SummaryPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryText>Shipping Cost</SummaryText>
@@ -236,7 +215,7 @@ const Cart = () => {
             <Hr />
             <SummaryItem type="total">
               <SummaryText>Total</SummaryText>
-              <SummaryPrice>₹2498</SummaryPrice>
+              <SummaryPrice>₹{cart.total}</SummaryPrice>
             </SummaryItem>
             <SummaryButton>Pay</SummaryButton>
           </Summary>
