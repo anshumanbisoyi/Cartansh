@@ -1,12 +1,16 @@
 import { Add, Remove } from "@material-ui/icons";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Annoucement from "../components/Annoucement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { mobile } from "../responsive";
+import StripeCheckout from "react-stripe-checkout";
+import { userRequest } from "../requestMethods";
+import { useNavigate } from "react-router-dom";
 
+const KEY = process.env.REACT_APP_STRIPE;
 const Container = styled.div``;
 const Wrapper = styled.div`
   padding: 20px;
@@ -58,19 +62,19 @@ const Product = styled.div`
   ${mobile({ flexDirection: "column" })}
 `;
 const ProductDetail = styled.div`
-flex:2;
-display:flex;
+  flex: 2;
+  display: flex;
 `;
 
 const Image = styled.img`
-width: 200px;
+  width: 200px;
 `;
 
 const Details = styled.div`
-padding: 20px;
-display: flex;
-flex-direction: column;
-justify-content: space-around;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 `;
 
 const ProductName = styled.span``;
@@ -92,13 +96,17 @@ const Price = styled.span`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  ${mobile({ justifyContent:"space-between",flexDirection: "row", padding: "10px" })}
+  ${mobile({
+    justifyContent: "space-between",
+    flexDirection: "row",
+    padding: "10px",
+  })}
 `;
 
-const ProductAmountContainer=styled.div`
-display:flex;
-align-items:center;
-margin-bottom: 20px;
+const ProductAmountContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
 `;
 const ProductQuantity = styled.div`
   font-size: 24px;
@@ -111,10 +119,10 @@ const ProductPrice = styled.div`
   ${mobile({ marginBottom: "20px" })}
 `;
 
-const Hr=styled.hr`
-background-color: #eee;
-border:none;
-height: 1px;
+const Hr = styled.hr`
+  background-color: #eee;
+  border: none;
+  height: 1px;
 `;
 
 const Summary = styled.div`
@@ -123,10 +131,10 @@ const Summary = styled.div`
   border-radius: 5px;
   padding: 20px;
   height: 52vh;
-  `;
+`;
 
-const SummaryTitle= styled.h1`
-font-weight: 300;
+const SummaryTitle = styled.h1`
+  font-weight: 300;
 `;
 const SummaryItem = styled.div`
   margin: 30px 0px;
@@ -135,24 +143,44 @@ const SummaryItem = styled.div`
   font-weight: ${(props) => props.type === "total" && "600"};
   font-size: ${(props) => props.type === "total" && "24px"};
 `;
-const SummaryText= styled.span``;
-const SummaryPrice= styled.span``;
-const SummaryButton=styled.button`
-width:100%;
-padding: 10px;
-background-color: white;
-border-radius: 5px;
-font-weight: 800;
-:hover{
+const SummaryText = styled.span``;
+const SummaryPrice = styled.span``;
+const SummaryButton = styled.button`
+  width: 100%;
+  padding: 10px;
+  background-color: white;
+  border-radius: 5px;
+  font-weight: 800;
+  :hover {
     background-color: black;
     color: white;
-}
-cursor:pointer;
+  }
+  cursor: pointer;
 `;
 
-
 const Cart = () => {
-  const cart = useSelector(state=>state.cart)
+  const cart = useSelector((state) => state.cart);
+  const [stripeToken, setStripeToken] = useState(null);
+  const navigate = useNavigate();
+  const onToken = (token) => {
+    setStripeToken(token);
+  };
+  // console.log(stripeToken);
+  // console.log(cart.total);
+  useEffect(() => {
+    const makeRequest = async () => {
+      try {
+        const res = await userRequest.post("/checkout/payment", {
+          tokenId: stripeToken.id,
+          amount: cart.total,
+        });
+        navigate("/success", { data: res.data });
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    stripeToken && makeRequest();
+  }, [stripeToken, cart.total, navigate]);
   return (
     <Container>
       <Navbar />
@@ -192,7 +220,9 @@ const Cart = () => {
                     <ProductQuantity>{product.quantity}</ProductQuantity>
                     <Remove />
                   </ProductAmountContainer>
-                  <ProductPrice>₹{product.price * product.quantity}</ProductPrice>
+                  <ProductPrice>
+                    ₹{product.price * product.quantity}
+                  </ProductPrice>
                 </Price>
               </Product>
             ))}
@@ -206,18 +236,25 @@ const Cart = () => {
             </SummaryItem>
             <SummaryItem>
               <SummaryText>Shipping Cost</SummaryText>
-              <SummaryPrice>₹49</SummaryPrice>
+              <SummaryPrice>₹99</SummaryPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryText>Discount</SummaryText>
-              <SummaryPrice>- ₹49</SummaryPrice>
+              <SummaryPrice>- ₹99</SummaryPrice>
             </SummaryItem>
             <Hr />
             <SummaryItem type="total">
               <SummaryText>Total</SummaryText>
               <SummaryPrice>₹{cart.total}</SummaryPrice>
             </SummaryItem>
-            <SummaryButton>Pay</SummaryButton>
+            <StripeCheckout
+              name="Cartansh"
+              description={`Your total bill is ₹${cart.total}`}
+              token={onToken}
+              stripeKey={KEY}
+            >
+              <SummaryButton>Pay</SummaryButton>
+            </StripeCheckout>
           </Summary>
         </Bottom>
       </Wrapper>

@@ -71,7 +71,6 @@ const MenuItem = styled.div`
 
 const Navbar = () => {
   const cart = useSelector(state=>state.cart)
-  console.log(cart.quantity);
   return (
     <Container>
       <Wrapper>
@@ -94,10 +93,7 @@ const Navbar = () => {
                 badgeContent={cart.quantity}
                 color="secondary"
                 style={{
-                  color: "black",
-                  "& .MuiBadge-badge": {
-                    background: "black",
-                  },
+                  color: "black"
                 }}
               >
                 <ShoppingCartOutlined />
