@@ -165,8 +165,6 @@ const Cart = () => {
   const onToken = (token) => {
     setStripeToken(token);
   };
-  // console.log(stripeToken);
-  // console.log(cart.total);
   useEffect(() => {
     const makeRequest = async () => {
       try {
@@ -174,13 +172,26 @@ const Cart = () => {
           tokenId: stripeToken.id,
           amount: cart.total,
         });
-        navigate("/success", { data: res.data });
+        console.log(res.data);
+        navigate("/success", {
+          state: {
+            stripeData: res.data,
+            products: cart,
+          },
+        });
+        //   navigate({pathname:"/success", search: createSearchParams({
+        //     stripeData: res.data,
+        //     products: cart
+        //   }).toString()
+        // })
+        console.log(res.data);
       } catch (err) {
         console.log(err);
       }
     };
     stripeToken && makeRequest();
   }, [stripeToken, cart.total, navigate]);
+
   return (
     <Container>
       <Navbar />
