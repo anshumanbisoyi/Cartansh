@@ -172,19 +172,12 @@ const Cart = () => {
           tokenId: stripeToken.id,
           amount: cart.total,
         });
-        console.log(res.data);
         navigate("/success", {
           state: {
             stripeData: res.data,
             products: cart,
           },
         });
-        //   navigate({pathname:"/success", search: createSearchParams({
-        //     stripeData: res.data,
-        //     products: cart
-        //   }).toString()
-        // })
-        console.log(res.data);
       } catch (err) {
         console.log(err);
       }
