@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import LoginPage from "../assets/LoginPage.jpeg";
+import { login } from "../redux/apiCalls";
 import { mobile } from "../responsive";
 const Container = styled.div`
   width: 100vw;
@@ -86,15 +88,28 @@ cursor:pointer;
 `;
 
 const Login = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const handleClick = (e) => {
+e.preventDefault()
+login(dispatch,{username, password})
+  }
   return (
     <Container>
       <Wrapper>
         <Title>Sign In</Title>
         <Form>
-          <Input placeholder="Username" />
+          <Input
+            placeholder="Username"
+            onChange={(e) => setUsername(e.target.value)}
+          />
           {/* <Input placeholder="Email" /> */}
-          <Input placeholder="Password" />
-          <Button>Log In</Button>
+          <Input
+            placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Button onClick={handleClick}>Log In</Button>
           <Link>forgot password?</Link>
         </Form>
       </Wrapper>
