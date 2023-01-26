@@ -33,20 +33,21 @@ router.post("/login", async (req, res) => {
       process.env.PASS_SECRET
     );
     const Originalpassword = hashedPassword.toString(CryptoJS.enc.Utf8);
-    Originalpassword !== req.body.password &&
-      res.status(401).json("Bad credentials");
+    if (Originalpassword !== req.body.password) {
+      return res.status(401).json("Bad credentials");
+    }
     const accessToken = jwt.sign(
       {
         id: user._id,
         isAdmin: user.isAdmin,
       },
       process.env.JWT_SECRET,
-      {expiresIn:"3d"}
+      { expiresIn: "3d" }
     );
     const { password, ...others } = user._doc;
-    res.status(200).json({...others, accessToken});
+    res.status(200).json({ ...others, accessToken });
   } catch (err) {
-    res.status(500).json(err);
+    return res.status(500).json(err);
   }
 });
 module.exports = router;
