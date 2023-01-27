@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import LoginPage from "../assets/LoginPage.jpeg"
+import LoginPage from "../assets/LoginPage.jpeg";
 import { login } from "../redux/apiCalls";
 import { mobile } from "../responsive";
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
-  background-image: 
-  ${'' /* linear-gradient(
+  background-image: ${
+      "" /* linear-gradient(
       rgba(255, 255, 252, 0),
       rgba(252, 252, 252, 0.5)
-    ), */}
+    ), */
+    }
     url(${LoginPage});
   ${
     "" /* url("https://www.wallpapertip.com/wmimgs/18-185930_black-and-white-wallpaper-model.jpg"); */
@@ -41,7 +42,6 @@ const Title = styled.h1`
   font-weight: 500;
   text-align: center;
   color: black;
-  
 `;
 const Form = styled.form`
   display: flex;
@@ -53,8 +53,8 @@ const Input = styled.input`
   margin: 20px 10px 0px 0px;
   padding: 10px;
   border-radius: 5px;
-  ${'' /* border: none; */}
-  ${'' /* outline: none; */}
+  ${"" /* border: none; */}
+  ${"" /* outline: none; */}
   :focus {
     outline: none;
   }
@@ -73,29 +73,36 @@ const Button = styled.button`
     color: white;
   }
   margin-bottom: 10px;
+  &:disabled {
+    color: grey;
+    cursor: not-allowed;
+  }
 `;
 
 const Link = styled.a`
-margin: 5px 0px;
-padding:5px;
-font-size:12px;
-font-weight: 500;
-color:black;
-cursor:pointer;
-:hover{
+  margin: 5px 0px;
+  padding: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  color: black;
+  cursor: pointer;
+  :hover {
     color: grey;
-}
+  }
 `;
+ const Error = styled.a`
+ color: red;
+ `;
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  const {isFetching,error}=useSelector((state)=>state.user);
+  const { isFetching, error } = useSelector((state) => state.user);
   const handleClick = (e) => {
-e.preventDefault()
-login(dispatch, {username, password})
-  }
+    e.preventDefault();
+    login(dispatch, { username, password });
+  };
   return (
     <Container>
       <Wrapper>
@@ -111,8 +118,12 @@ login(dispatch, {username, password})
             type="password"
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Button onClick={handleClick} disabled={isFetching}>Log In</Button>
-          <Link>forgot password?</Link>
+          <Button onClick={handleClick} disabled={isFetching}>
+            Log In
+          </Button>
+          <br />
+          {error && <Error>Something went wrong.</Error>}
+          {!error && <Link>forgot password?</Link>}
         </Form>
       </Wrapper>
     </Container>
