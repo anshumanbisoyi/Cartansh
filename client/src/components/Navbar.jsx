@@ -96,7 +96,7 @@ const Dropbtn = styled.div`
   display: inline-block;
   color: black;
   text-align: center;
-  padding: 14px 16px;
+  padding: 10px 5px 10px 5px;
   text-decoration: none;
 `;
 
@@ -104,8 +104,7 @@ const DropDownContent = styled.div`
   display: none;
   position: absolute;
   background-color: #f9f9f9;
-  border-radius: 5px;
-
+  ${'' /* border-radius: 12px; */}
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.1);
   z-index: 1;
 `;
@@ -115,11 +114,14 @@ const DropDownLi = styled(StyledLi)`
   &:hover ${DropDownContent} {
     display: block;
   }
+  ${mobile({ 
+    
+  })}
 `;
 
 const SubA = styled.a`
   color: black;
-  padding: 12px;
+  padding: 5px;
   text-decoration: none;
   text-align: center;
 
@@ -151,16 +153,7 @@ const Navbar = () => {
           </Link>
         </Center>
         <Right>
-          <Link
-            to="/register"
-            style={{ color: "black", textDecoration: "none" }}
-          >
-            <MenuItem>Register</MenuItem>
-          </Link>
-          {currentUser && (
-            <MenuItem onClick={() => dispatch(logout())}>Log out</MenuItem>
-          )}
-          <Link to="/login" style={{ color: "black", textDecoration: "none" }}>
+          <Link style={{ color: "black", textDecoration: "none" }}>
             <Account>
               {currentUser ? (
                 /* <AccountCircle>
@@ -170,26 +163,39 @@ const Navbar = () => {
                     </Box>
                   </DropDownListContainer>
                 </AccountCircle> */
-                
-                (
-                  
-                  <DropDownLi>
-                <Dropbtn>
-            <AccountCircle/>
-          </Dropbtn>
-          <DropDownContent>
-            <SubA>Log out</SubA>
-          </DropDownContent>
-        </DropDownLi>
-                
-                )
-                
+
+                <DropDownLi>
+                  <Dropbtn>
+                    <AccountCircle />
+                  </Dropbtn>
+                  <DropDownContent>
+                    <SubA onClick={() => dispatch(logout())}>Log out</SubA>
+                  </DropDownContent>
+                </DropDownLi>
               ) : (
-                <AccountCircleOutlined
-                  onClick={() => {
-                    setLogin(true);
-                  }}
-                />
+                /* <AccountIcon/> */
+
+                <Link style={{ color: "black", textDecoration: "none" }}>
+                  <DropDownLi>
+                    <Dropbtn>
+                      <AccountCircleOutlined />
+                    </Dropbtn>
+                    <DropDownContent>
+                      <Link
+                        to="/login"
+                        style={{ color: "black", textDecoration: "none" }}
+                      >
+                        <SubA>Log In</SubA>
+                      </Link>
+                      <Link
+                        to="/register"
+                        style={{ color: "black", textDecoration: "none" }}
+                      >
+                        <SubA>Register</SubA>
+                      </Link>
+                    </DropDownContent>
+                  </DropDownLi>
+                </Link>
               )}
             </Account>
           </Link>

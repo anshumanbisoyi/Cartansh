@@ -99,6 +99,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const { isFetching, error } = useSelector((state) => state.user);
+  console.log(error);
   const handleClick = (e) => {
     e.preventDefault();
     login(dispatch, { username, password });
@@ -123,7 +124,7 @@ const Login = () => {
           </Button>
           <br />
           {error && <Error>Something went wrong.</Error>}
-          {!error && <Link>forgot password?</Link>}
+          {!isFetching && <Link>forgot password?</Link>}
         </Form>
       </Wrapper>
     </Container>
