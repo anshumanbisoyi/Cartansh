@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { mobile } from "../responsive";
 import { logout } from "../redux/userRedux";
+import LoginModal from "./LoginModal";
 
 const Container = styled.div`
   height: 60px;
@@ -104,7 +105,7 @@ const DropDownContent = styled.div`
   display: none;
   position: absolute;
   background-color: #f9f9f9;
-  ${'' /* border-radius: 12px; */}
+  border-radius: 5px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.1);
   z-index: 1;
 `;
@@ -124,7 +125,7 @@ const SubA = styled.a`
   padding: 5px;
   text-decoration: none;
   text-align: center;
-
+  border-radius: 5px;
   display: block;
   text-align: left;
   cursor: pointer;
@@ -137,7 +138,6 @@ const Navbar = () => {
   const cart = useSelector((state) => state.cart);
   const [login, setLogin] = useState(false);
   const dispatch = useDispatch();
-
   const user = useSelector((state) => state.user);
   const { currentUser } = user;
   return (
@@ -181,12 +181,13 @@ const Navbar = () => {
                       <AccountCircleOutlined />
                     </Dropbtn>
                     <DropDownContent>
-                      <Link
+                      {/* <Link
                         to="/login"
                         style={{ color: "black", textDecoration: "none" }}
                       >
                         <SubA>Log In</SubA>
-                      </Link>
+                      </Link> */}
+                      <SubA onClick={() => setLogin(true)}>Log In</SubA>
                       <Link
                         to="/register"
                         style={{ color: "black", textDecoration: "none" }}
@@ -199,7 +200,6 @@ const Navbar = () => {
               )}
             </Account>
           </Link>
-
           <Link to="/cart">
             <MenuItem>
               <Badge
@@ -215,6 +215,7 @@ const Navbar = () => {
           </Link>
         </Right>
       </Wrapper>
+      {login && <LoginModal closeModal={setLogin} />}
     </Container>
   );
 };
