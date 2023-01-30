@@ -5,25 +5,35 @@ import { mobile } from "../responsive";
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
-  background-size: cover;
   display: flex;
   align-items: center;
   justify-content: center;
-  ${mobile({
-    backgroundImage: ` linear-gradient(
-      rgba(255, 255, 252, 0),
-      rgba(252, 252, 252, 0.3)
-    ), url("https://w0.peakpx.com/wallpaper/61/987/HD-wallpaper-kendall-jenner-beauty-model-monochrome-mood-people-graphy-portrait-pretty-woman.jpg")`,
-  })}
 `;
 const Wrapper = styled.div`
+  z-index: 1000;
+  position: absolute;
   padding: 20px;
-  width: 40%;
-  background-color: white;
+  width: 25%;
   border-radius: 15px;
+  ${"" /* background-color: white; */}
+  background-color: #fff;
   color: white;
-  opacity: 0.9;
-  ${mobile({ width: "75%", opacity: 0.8 })}
+  opacity: 0.98;
+  z-index: 1;
+  ${"" /* border: 1px solid; */}
+  border-color: black;
+  box-shadow: rgba(0, 0, 0, 0.5) 0px 16px 24px 5000px;
+  ${"" /* transform: scale(0); */}
+  transition: transform300ms cubic-bezier(0.57,0.21,0.69,1.25);
+  ${mobile({ width: "75%" })}
+`;
+const Close = styled.button`
+  display: flex;
+  justifycontent: flex-end;
+  background-color: transparent;
+  border: none;
+  font-size: 25px;
+  cursor: pointer;
 `;
 const Title = styled.h1`
   font-size: 50px;
@@ -65,10 +75,11 @@ const Button = styled.button`
   }
 `;
 
-const RegisterModal = () => {
+const RegisterModal = ({closeModal}) => {
   return (
     <Container>
       <Wrapper>
+        <Close onClick={() => closeModal(false)}> X </Close>
         <Title>Sign Up</Title>
         <Form>
           <Input placeholder="Username" />

@@ -5,11 +5,10 @@ import { login } from "../redux/apiCalls";
 import { mobile } from "../responsive";
 const Container = styled.div`
   width: 100vw;
-  height:100vh;
+  height:95vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  
 `;
 const Wrapper = styled.div`
   z-index: 1000;
@@ -99,7 +98,7 @@ const LoginModal = ({closeModal}) => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const { isFetching, error } = useSelector((state) => state.user);
-  console.log(error);
+//   console.log(error);
   const handleClick = (e) => {
     e.preventDefault();
     login(dispatch, { username, password });
@@ -126,7 +125,7 @@ const LoginModal = ({closeModal}) => {
             </Button>
             <br />
             {error && <Error>Something went wrong.</Error>}
-            {!isFetching && <Link>forgot password?</Link>}
+            {!error && <Link>forgot password?</Link>}
           </Form>
         </Wrapper>
       </Container>

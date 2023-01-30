@@ -11,6 +11,7 @@ import styled from "styled-components";
 import { mobile } from "../responsive";
 import { logout } from "../redux/userRedux";
 import LoginModal from "./LoginModal";
+import RegisterModal from "./RegisterModal";
 
 const Container = styled.div`
   height: 60px;
@@ -129,6 +130,7 @@ const SubA = styled.a`
   display: block;
   text-align: left;
   cursor: pointer;
+  font-size:12px;
   &:hover {
     background-color: #f1f1f1;
   }
@@ -137,6 +139,7 @@ const SubA = styled.a`
 const Navbar = () => {
   const cart = useSelector((state) => state.cart);
   const [login, setLogin] = useState(false);
+  const [register, setRegister] = useState(false);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const { currentUser } = user;
@@ -188,12 +191,13 @@ const Navbar = () => {
                         <SubA>Log In</SubA>
                       </Link> */}
                       <SubA onClick={() => setLogin(true)}>Log In</SubA>
-                      <Link
+                      {/* <Link
                         to="/register"
                         style={{ color: "black", textDecoration: "none" }}
                       >
                         <SubA>Register</SubA>
-                      </Link>
+                      </Link> */}
+                      <SubA onClick={()=>setRegister(true)}>Register</SubA>
                     </DropDownContent>
                   </DropDownLi>
                 </Link>
@@ -216,6 +220,7 @@ const Navbar = () => {
         </Right>
       </Wrapper>
       {login && <LoginModal closeModal={setLogin} />}
+      {register && <RegisterModal closeModal={setRegister} />}
     </Container>
   );
 };
