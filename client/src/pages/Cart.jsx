@@ -9,6 +9,7 @@ import { mobile } from "../responsive";
 import StripeCheckout from "react-stripe-checkout";
 import { userRequest } from "../requestMethods";
 import { useNavigate } from "react-router-dom";
+import { addProduct } from "../redux/cartRedux";
 
 const KEY = process.env.REACT_APP_STRIPE;
 const Container = styled.div``;
@@ -79,7 +80,9 @@ const Details = styled.div`
 
 const ProductName = styled.span``;
 
-const ProductId = styled.span``;
+const ProductId = styled.span`
+  ${mobile({ fontSize:10 })}
+`;
 
 const ProductSize = styled.span``;
 

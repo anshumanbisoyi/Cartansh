@@ -98,16 +98,17 @@ const Footer = () => {
           <SocialIcon color="3B5999">
             <Facebook />
           </SocialIcon>
-          <SocialIcon color="E4405F">
+          <SocialIcon color="55ACEE">
             <Twitter />
           </SocialIcon>
-          <SocialIcon color="55ACEE">
+          <SocialIcon color="E4405F">
             <Instagram />
           </SocialIcon>
           <SocialIcon color="E60023">
             <Pinterest />
           </SocialIcon>
         </SocialContainer>
+        <Desc>Made by Anshuman Bisoyi</Desc>
       </Left>
       <Center>
         <Title>Details</Title>
