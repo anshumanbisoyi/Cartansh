@@ -13,7 +13,7 @@ const Image = styled.img`
   height: 100%;
   object-fit: cover;
   border-radius: 15px;
-  ${mobile({ height: "20vh" })}
+  ${mobile({ height: "25vh" })}
 `;
 const Info = styled.div`
   position: absolute;

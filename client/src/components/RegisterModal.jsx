@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../redux/apiCalls";
+import Axios from "axios";
+import { userRequest } from "../requestMethods";
 
 const Container = styled.div`
   width: 100vw;
-  height: 100vh;
+  height: 80vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1000;
 `;
 const Wrapper = styled.div`
   z-index: 1000;
@@ -73,26 +78,63 @@ const Button = styled.button`
     background-color: black;
     color: white;
   }
+  ${mobile({ width: "100%" })}
 `;
 
-const RegisterModal = ({closeModal}) => {
+const RegisterModal = ({ closeModal }) => {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    Axios.post("http://localhost:3000/api/auth/register",{username:username, email:email, password:password})
+    closeModal(false);
+  };
+
   return (
     <Container>
       <Wrapper>
         <Close onClick={() => closeModal(false)}> X </Close>
         <Title>Sign Up</Title>
         <Form>
-          <Input placeholder="Username" />
-          <Input placeholder="First Name" />
-          <Input placeholder="Last Name" />
-          <Input placeholder="Email" />
-          <Input placeholder="Password" />
-          <Input placeholder="Confirm Password" />
+          <Input
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Username"
+          />
+          <Input
+            // value={user.fname}
+            // onChange={handleInputs}
+            placeholder="First Name"
+          />
+          <Input
+            // value={user.lname}
+            // onChange={handleInputs}
+            placeholder="Last Name"
+          />
+          <Input
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+          />
+          <Input
+            value={password}
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+          />
+          <Input
+            // value={user.cpassword}
+            // onChange={handleInputs}
+            placeholder="Confirm Password"
+            type="password"
+          />
           <Agrement>
             By creating an account, I consent to processing of my personal data
             in accordance with the <b>privacy policy</b>.
           </Agrement>
-          <Button>Create</Button>
+          <Button onClick={handleClick}>Create</Button>
         </Form>
       </Wrapper>
     </Container>
