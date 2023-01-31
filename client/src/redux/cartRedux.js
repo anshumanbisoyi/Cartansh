@@ -15,11 +15,18 @@ const cartSlice = createSlice({
         },
         removeProduct:(state,action)=>{
             state.quantity -=1;
-            state.products.pop(action.payload);
-            state.total += action.payload.price * action.payload.quantity;
-        }
+             state.products.pop(action.payload);
+             state.total -= action.payload.price;
+            
+        } , 
+        multipyProduct:(state,action)=>{
+            state.quantity +=1;
+             state.products.push(action.payload);
+             state.total += action.payload.price;
+            
+        }  
     },
 })
 
-export const {addProduct, removeProduct} = cartSlice.actions;
+export const {addProduct, removeProduct, multiplyProduct} = cartSlice.actions;
 export default cartSlice.reducer;

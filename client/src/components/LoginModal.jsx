@@ -103,6 +103,7 @@ const LoginModal = ({closeModal}) => {
     login(dispatch, { username, password });
     closeModal(false);
   };
+  console.log(error);
   return (
       <Container>
         <Wrapper>

@@ -123,7 +123,7 @@ const Product = () => {
   const [color, setColor] = useState("");
   const [size, setSize] = useState("");
   const dispatch = useDispatch();
-
+// console.log(dispatch);
   useEffect(() => {
     const getProduct = async () => {
       try {
@@ -142,8 +142,7 @@ const Product = () => {
     }
   };
   const handleClick = ()=>{
-    dispatch(addProduct({ ...product, quantity, color, size }));
-      
+    dispatch(addProduct({ ...product, quantity, color, size }));  
   };
   return (
     <Container>

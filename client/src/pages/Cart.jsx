@@ -1,6 +1,6 @@
 import { Add, Remove } from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Annoucement from "../components/Annoucement";
 import Footer from "../components/Footer";
@@ -9,7 +9,9 @@ import { mobile } from "../responsive";
 import StripeCheckout from "react-stripe-checkout";
 import { userRequest } from "../requestMethods";
 import { useNavigate } from "react-router-dom";
+import { removeProduct } from "../redux/cartRedux";
 import { addProduct } from "../redux/cartRedux";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const KEY = process.env.REACT_APP_STRIPE;
 const Container = styled.div``;
@@ -158,6 +160,7 @@ const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const [stripeToken, setStripeToken] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const onToken = (token) => {
     setStripeToken(token);
   };
@@ -180,6 +183,13 @@ const Cart = () => {
     };
     stripeToken && makeRequest();
   }, [stripeToken, cart.total, navigate]);
+
+  const handleRemove= (cartItem) =>{
+   dispatch(removeProduct(cartItem));
+  }
+  const handleAdd = (cartItem) => {
+    dispatch(addProduct(cartItem));
+  };
 
   return (
     <Container>
@@ -211,13 +221,14 @@ const Cart = () => {
                     <ProductSize>
                       <b>Size:</b> {product.size}
                     </ProductSize>
+                    <DeleteIcon onClick={() => handleRemove(product)} />
                   </Details>
                 </ProductDetail>
                 <Price>
                   <ProductAmountContainer>
-                    <Add />
+                    <Add onClick={() => handleAdd(product)} />
                     <ProductQuantity>{product.quantity}</ProductQuantity>
-                    <Remove />
+                    <Remove onClick={() => handleRemove(product)} />
                   </ProductAmountContainer>
                   <ProductPrice>
                     ₹{product.price * product.quantity}
