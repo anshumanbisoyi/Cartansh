@@ -88,7 +88,11 @@ const RegisterModal = ({ closeModal }) => {
 
   const handleClick = (e) => {
     e.preventDefault();
-    Axios.post("http://localhost:3000/api/auth/register",{username:username, email:email, password:password})
+    Axios.post("https://cartansh.vercel.app/api/auth/register", {
+      username: username,
+      email: email,
+      password: password,
+    });
     closeModal(false);
   };
 
