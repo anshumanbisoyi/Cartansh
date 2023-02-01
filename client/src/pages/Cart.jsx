@@ -146,12 +146,13 @@ const SummaryPrice = styled.span``;
 const SummaryButton = styled.button`
   width: 100%;
   padding: 10px;
-  background-color: white;
+  background-color: black;
+  color: white;
   border-radius: 5px;
   font-weight: 800;
   :hover {
-    background-color: black;
-    color: white;
+    background-color: white;
+    color: black;
   }
   cursor: pointer;
 `;
@@ -200,7 +201,7 @@ const Cart = () => {
         <Top>
           <TopButton>Continue</TopButton>
           <TopTexts>
-            <TopText>Cart(2)</TopText>
+            <TopText>Cart({cart.quantity})</TopText>
             <TopText>Wishlist(0)</TopText>
           </TopTexts>
           <TopButton type="filled">Checkout</TopButton>
