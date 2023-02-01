@@ -239,7 +239,7 @@ const Cart = () => {
             ))}
             <Hr />
           </Info>
-          <Summary>
+          {cart.quantity !== 0 && <Summary>
             <SummaryTitle>Order Summary</SummaryTitle>
             <SummaryItem>
               <SummaryText>Subtotal</SummaryText>
@@ -266,7 +266,7 @@ const Cart = () => {
             >
               <SummaryButton>Pay</SummaryButton>
             </StripeCheckout>
-          </Summary>
+          </Summary>}
         </Bottom>
       </Wrapper>
       <Footer />
