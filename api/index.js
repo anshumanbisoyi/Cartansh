@@ -17,7 +17,7 @@ const corsOptions = {
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
 };
-
+const PORT = process.env.port || 3000;
 mongoose
   .connect(process.env.MONGO_URL)
   .then(() => {
@@ -26,7 +26,6 @@ mongoose
   .catch((err) => console.log(err));
 
 app.use(cors(corsOptions)); // Use this after the variable declaration
-
 app.use(express.json());
 
 app.use("/api/auth", authRoute);
@@ -36,6 +35,6 @@ app.use("/api/carts", cartRoute);
 app.use("/api/orders", orderRoute);
 app.use("/api/checkout", stripeRoute);
 
-app.listen(process.env.PORT || 3000, () => {
-  console.log("Backend server is listening on port 3000.");
+app.listen(PORT, () => {
+  console.log(`Backend server is listening on port no ${PORT}`);
 });

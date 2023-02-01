@@ -2,5 +2,11 @@
   "dependencies": {
     "material-ui-popup-state": "^5.0.4",
     "reactstrap": "^9.1.5"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   }
 }
